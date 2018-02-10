@@ -79,7 +79,7 @@ public class signinConn extends AsyncTask<String, Void, String> {
 
                     Intent intent = new Intent(context, browseActivity.class);
                     context.startActivity(intent);
-
+// as as as as as as as as as as as as as 
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Eamil or password wrong", Toast.LENGTH_SHORT).show();
                 } else {
