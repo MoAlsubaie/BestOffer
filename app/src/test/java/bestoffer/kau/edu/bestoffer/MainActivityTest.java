@@ -13,6 +13,5 @@ public class MainActivityTest {
 
     @Test
     public void mainTest (){
-
         }
 }

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/browse"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="bestoffer.kau.edu.bestoffer.browseActivity">
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="180dp"
+        android:gravity="center"
+        android:numColumns="auto_fit" />
+</LinearLayout>

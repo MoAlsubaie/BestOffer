@@ -1,0 +1,52 @@
+package bestoffer.kau.edu.bestoffer;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.widget.ImageView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+
+public class GetImg extends AsyncTask<String, Void, Bitmap> {
+
+    ImageView imgDis;
+    Bitmap img;
+    int i;
+
+    public GetImg(ImageView imgDis, int i) {
+        this.imgDis = imgDis;
+        this.i = i;
+    }
+
+    @Override
+    protected Bitmap doInBackground(String... url) {
+        img = null;
+        try {
+
+            InputStream inputStream = new java.net.URL(url[0]).openStream();
+            img = BitmapFactory.decodeStream(inputStream);
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return img;
+    }
+
+    protected void onPostExecute(Bitmap result) {
+        super.onPostExecute(result);
+
+        imgDis.setImageBitmap(result);
+
+
+    }
+}
+
+
+
+

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bestoffer.kau.edu.bestoffer">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,8 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".browseActivity"></activity>
-        <activity android:name=".Signup"></activity>
+        <activity android:name=".browseActivity" />
+        <activity android:name=".Signup" />
+        <activity android:name=".ShowItem"></activity>
     </application>
 
 </manifest>
