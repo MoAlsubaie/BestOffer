@@ -8,5 +8,7 @@
     <string name="massege1">the Password do not match</string>
     <string name="fillData">please fill all the data needed</string>
     <string name="emailEx">E-mail is invalid</string>
+    <string name="pricture_of_an_item">pricture of an item</string>
+    <string name="logo">logo</string>
 
 </resources>

@@ -1,7 +1,6 @@
 package bestoffer.kau.edu.bestoffer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -77,8 +76,7 @@ class signupConn extends AsyncTask<String, Void, String> {
                     user.setEmail(email);
                     user.setPassword(password);
 
-                    Intent intent = new Intent(context, browseActivity.class);
-                    context.startActivity(intent);
+                    new getitems(context).execute() ;
 
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Eamil already exsists.", Toast.LENGTH_SHORT).show();
