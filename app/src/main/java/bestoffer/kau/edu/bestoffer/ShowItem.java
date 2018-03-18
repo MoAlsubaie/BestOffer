@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.MapView;
-
 public class ShowItem extends AppCompatActivity {
 public  items item = null ;
     @Override
@@ -52,9 +50,7 @@ public  items item = null ;
         }
 
 
-        MapView map = (MapView) findViewById(R.id.sumap) ;
-
-
+       // MapView mapView = (MapView) findViewById(R.id.gridview_logo) ;
 
 
     }
