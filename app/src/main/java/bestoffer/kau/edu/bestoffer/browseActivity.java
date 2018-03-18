@@ -23,6 +23,7 @@ public class browseActivity extends AppCompatActivity  {
     GridView androidGridView;
      Context context = this ;
     MaterialSearchView searchView ;
+    ArrayList<items> search ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class browseActivity extends AppCompatActivity  {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
+
 
             }
 
@@ -81,34 +83,25 @@ public class browseActivity extends AppCompatActivity  {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText != null && !newText.isEmpty()) {
-                    ArrayList<items> search = new ArrayList<items>();
+                     search = new ArrayList<items>();
 
                     for(items item :items.Ar)
                         if(item.getDescription().contains(newText))
                             search.add(item);
 
-                    Collections.sort(search, new Comparator<items>() {
-                        @Override
-                        public int compare(items c1, items c2) {
-                            return Double.compare(c1.getPrice(), c2.getPrice());
-                        }
-                    });
+
 
                     br(search);
 
                 }else{
+                    search = null ;
                     br(items.Ar);
                 }
                 return true ;
             }
         });
 
-       /* Collections.sort(items.Ar, new Comparator<items>() {
-            @Override
-            public int compare(items c1, items c2) {
-                return Double.compare(c1.getPrice(), c2.getPrice());
-            }
-        });*/
+
 
 
 
@@ -134,7 +127,10 @@ public class browseActivity extends AppCompatActivity  {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id ) {
                 Intent intent = new Intent(context, ShowItem.class);
+                if(search == null)
                 intent.putExtra("id" , i ) ;
+                else
+                    intent.putExtra("id" , search.get(i).getIndex() ) ;
                 startActivity(intent);
 
 
@@ -142,6 +138,30 @@ public class browseActivity extends AppCompatActivity  {
             }
         });
 
+
+    }
+
+    public void listprice (View v){
+        if(search==null){
+            Collections.sort(items.Ar, new Comparator<items>() {
+                @Override
+                public int compare(items c1, items c2) {
+                    return Double.compare(c1.getPrice(), c2.getPrice());
+                }
+            });
+        }else{
+            Collections.sort(search, new Comparator<items>() {
+                @Override
+                public int compare(items c1, items c2) {
+                    return Double.compare(c1.getPrice(), c2.getPrice());
+                }
+            });
+
+        }
+
+
+    }
+    public void listlocation (View v){
 
     }
 }

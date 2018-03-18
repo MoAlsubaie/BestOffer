@@ -1,5 +1,7 @@
 package bestoffer.kau.edu.bestoffer;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 
 public class items {
    public static ArrayList<items> Ar = new ArrayList<items>() ;
+   private int index ;
     private long id ;
     private String name ;
     private String type ;
@@ -16,7 +19,23 @@ public class items {
     private String pictureLink ;
     private double offer ;
     private String supermarket ;
+    private Bitmap img;
 
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public long getId() {
         return id;
@@ -78,9 +97,9 @@ public class items {
             offer/= 100 ;
 
             this.offer = offer * this.price ;
-
-            this.offer = this.price - this.offer ;
-
+            double temp = this.price ;
+            this.price = this.price - this.offer ;
+            this.offer = temp ;
         }
 
     }

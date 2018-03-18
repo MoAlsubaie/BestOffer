@@ -66,7 +66,7 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageViewAndroidLogo = (ImageView) gridViewAndroid.findViewById(R.id.gridview_logo);
 
         textViewAndroid.setText(Ar.get(i).getName());
-        new GetImg(imageViewAndroid , i).execute(Ar.get(i).getPictureLink()) ;
+        imageViewAndroid.setImageBitmap(Ar.get(i).getImg());
         if(Ar.get(i).getSupermarket().equalsIgnoreCase("ca")){
             imageViewAndroidLogo.setImageResource(R.drawable.ca);
         }else if(Ar.get(i).getSupermarket().equalsIgnoreCase("da")){
@@ -76,8 +76,8 @@ public class GridAdapter extends BaseAdapter {
         }
 
         if(Ar.get(i).getOffer() != 0){
-            textViewAndroidO.setText(String.valueOf(Ar.get(i).getPrice()));
-            textViewAndroidP.setText(String.valueOf(Ar.get(i).getOffer()));
+            textViewAndroidO.setText(String.valueOf(Ar.get(i).getOffer()));
+            textViewAndroidP.setText(String.valueOf(Ar.get(i).getPrice()));
             textViewAndroidO.setPaintFlags(textViewAndroidO.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }else{
             textViewAndroidP.setText(String.valueOf(Ar.get(i).getPrice()));
