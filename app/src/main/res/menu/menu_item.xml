@@ -8,20 +8,16 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:id="@+id/item_filter"
         android:orderInCategory="152"
-        app:showAsAction="ifRoom"
-        android:title="filter..."
-        app:actionViewClass="android.widget.Spinner"
-        >
+        app:showAsAction="always"
+        android:title="filter...">
 
         <menu>
             <item
-                android:id="@+id/price"
+                android:id="@+id/sort_by_price"
                 android:title="Sort by price"/>
             <item
-                android:id="@+id/location"
-                android:title="Sort by location"
-
-                />
+                android:id="@+id/sort_by_location"
+                android:title="Sort by location"/>
         </menu>
     </item>
 

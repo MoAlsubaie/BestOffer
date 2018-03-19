@@ -25,9 +25,8 @@
         app:searchSuggestionIcon="@drawable/ic_suggestion"
 
 
-        >
 
-    </com.miguelcatalan.materialsearchview.MaterialSearchView>
+        />
 
     <GridView
         android:id="@+id/gridView"
@@ -37,5 +36,6 @@
         android:columnWidth="180dp"
         android:gravity="center"
         android:numColumns="auto_fit" />
+
 
 </RelativeLayout>

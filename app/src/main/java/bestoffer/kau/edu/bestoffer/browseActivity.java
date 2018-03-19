@@ -1,9 +1,15 @@
 package bestoffer.kau.edu.bestoffer;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +19,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -23,7 +32,9 @@ public class browseActivity extends AppCompatActivity  {
     GridView androidGridView;
      Context context = this ;
     MaterialSearchView searchView ;
-    ArrayList<items> search ;
+    static ArrayList<items> search ;
+    private FusedLocationProviderClient mFusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +48,10 @@ public class browseActivity extends AppCompatActivity  {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Best Offer");
         toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-        br(items.Ar);
+        if(search == null)
+        BrowseItems(items.Ar);
+        else
+        BrowseItems(search);
 
          searchView = (MaterialSearchView)findViewById(R.id.search_view);
 
@@ -50,7 +64,7 @@ public class browseActivity extends AppCompatActivity  {
 
             @Override
             public void onSearchViewClosed() {
-                br(items.Ar);
+                BrowseItems(items.Ar);
 
             }
         });
@@ -59,23 +73,13 @@ public class browseActivity extends AppCompatActivity  {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query != null && !query.isEmpty()) {
-                    ArrayList<items> search = new ArrayList<items>();
 
-                    for(items item :items.Ar)
-                        if(item.getDescription().contains(query))
-                            search.add(item);
-
-                    Collections.sort(search, new Comparator<items>() {
-                        @Override
-                        public int compare(items c1, items c2) {
-                            return Double.compare(c1.getPrice(), c2.getPrice());
-                        }
-                    });
-
-                    br(search);
+                 Intent intent = new Intent(context , browseActivity.class ) ;
+                    startActivity(intent);
 
                 }else{
-                    br(items.Ar);
+                    BrowseItems(items.Ar);
+                    search = null ;
                 }
                 return true ;
             }
@@ -84,27 +88,17 @@ public class browseActivity extends AppCompatActivity  {
             public boolean onQueryTextChange(String newText) {
                 if (newText != null && !newText.isEmpty()) {
                      search = new ArrayList<items>();
-
                     for(items item :items.Ar)
-                        if(item.getDescription().contains(newText))
+                        if(item.getDescription().toLowerCase().contains(newText.toLowerCase()))
                             search.add(item);
-
-
-
-                    br(search);
-
+                            BrowseItems(search);
                 }else{
                     search = null ;
-                    br(items.Ar);
+                    BrowseItems(items.Ar);
                 }
                 return true ;
             }
         });
-
-
-
-
-
     }
 
     @Override
@@ -115,7 +109,22 @@ public class browseActivity extends AppCompatActivity  {
         return true ;
     }
 
-    public void br (ArrayList<items> Ar){
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.sort_by_price:
+              SortByPrice();
+                return true;
+            case R.id.sort_by_location:
+                SortByLocation();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void BrowseItems (ArrayList<items> Ar){
 
 
         GridAdapter adapterViewAndroid = new GridAdapter(browseActivity.this,Ar);
@@ -141,7 +150,7 @@ public class browseActivity extends AppCompatActivity  {
 
     }
 
-    public void listprice (View v){
+    public void SortByPrice (){
         if(search==null){
             Collections.sort(items.Ar, new Comparator<items>() {
                 @Override
@@ -149,6 +158,7 @@ public class browseActivity extends AppCompatActivity  {
                     return Double.compare(c1.getPrice(), c2.getPrice());
                 }
             });
+            BrowseItems(items.Ar);
         }else{
             Collections.sort(search, new Comparator<items>() {
                 @Override
@@ -156,12 +166,64 @@ public class browseActivity extends AppCompatActivity  {
                     return Double.compare(c1.getPrice(), c2.getPrice());
                 }
             });
-
+            BrowseItems(search);
         }
 
 
     }
-    public void listlocation (View v){
+    public void SortByLocation (){
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("PERMISSION").setMessage("sorry we need this premission to get you the best location for you");
+                builder.setPositiveButton("OK",null);
+                builder.create().show();
+
+
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                            0);
+
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        0);
+
+
+            }
+        } else {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                            }
+                        }
+                    });
+        }
+
+
+
+
+
+
 
     }
 }
