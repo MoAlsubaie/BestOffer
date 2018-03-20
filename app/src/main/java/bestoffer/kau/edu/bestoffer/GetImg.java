@@ -3,7 +3,6 @@ package bestoffer.kau.edu.bestoffer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,12 +10,12 @@ import java.net.MalformedURLException;
 
 public class GetImg extends AsyncTask<String, Void, Bitmap> {
 
-    ImageView imgDis;
+
     Bitmap img;
     int i;
 
-    public GetImg(ImageView imgDis, int i) {
-        this.imgDis = imgDis;
+    public GetImg( int i) {
+
         this.i = i;
     }
 
@@ -40,8 +39,8 @@ public class GetImg extends AsyncTask<String, Void, Bitmap> {
 
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
+        items.Ar.get(i).setImg(result);
 
-        imgDis.setImageBitmap(result);
 
 
     }

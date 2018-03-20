@@ -73,12 +73,14 @@ public class getitems extends AsyncTask<String, Void, String> {
                     for (int i = 0; i < num; i++) {
 
                         items item = new items();
+                        item.setIndex(i);
                         item.setId(jsonObj.getInt("id"+i));
                         item.setName(jsonObj.getString("name"+i));
                         item.setType(jsonObj.getString("type"+i));
                         item.setDescription(jsonObj.getString("description"+i));
                         item.setPrice(jsonObj.getDouble("price"+i));
                         item.setPictureLink(jsonObj.getString("picture"+i));
+                        new GetImg(i).execute(item.getPictureLink()) ;
                         item.setOffer(jsonObj.getDouble("offer"+i));
                         item.setSupermarket(jsonObj.getString("supermarket"+i));
                         items.Ar.add(item);

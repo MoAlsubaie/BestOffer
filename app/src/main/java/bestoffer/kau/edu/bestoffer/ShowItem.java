@@ -14,7 +14,8 @@ public  items item = null ;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_item);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        int id = intent.getIntExtra("id", -1);
+
 
         item = items.Ar.get(id);
 
@@ -26,7 +27,7 @@ public  items item = null ;
         Description.setText(item.getDescription());
 
         ImageView imageView = findViewById(R.id.img);
-        new GetImg(imageView, id).execute(item.getPictureLink());
+        imageView.setImageBitmap(item.getImg());
         TextView price = (TextView) findViewById(R.id.price);
         if (item.getOffer() == 0) {
 
@@ -34,9 +35,9 @@ public  items item = null ;
 
         } else {
             TextView oldp = (TextView) findViewById(R.id.oldprice);
-            oldp.setText(String.valueOf(item.getPrice()));
+            oldp.setText(String.valueOf(item.getOffer()));
             oldp.setPaintFlags(oldp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            price.setText(String.valueOf(item.getOffer()));
+            price.setText(String.valueOf(item.getPrice()));
 
 
         }

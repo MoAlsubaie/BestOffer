@@ -21,8 +21,10 @@
         app:searchBackground="@color/colorPrimary"
         app:searchSuggestionBackground="@color/colorPrimary"
         app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
-        app:searchBackIcon="@drawable/ic_action_navigation_arrow_back"
+        app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
         app:searchSuggestionIcon="@drawable/ic_suggestion"
+
+
 
         />
 
