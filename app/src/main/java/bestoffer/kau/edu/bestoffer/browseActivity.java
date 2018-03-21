@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -33,12 +34,26 @@ public class browseActivity extends AppCompatActivity  {
      Context context = this ;
     MaterialSearchView searchView ;
     static ArrayList<items> search ;
-    private FusedLocationProviderClient mFusedLocationClient;
+    private FusedLocationProviderClient mFusedLocationClient ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
+
+        supermarket panda = new supermarket();
+        panda.setName("Hyper Panda");
+        supermarket danube = new supermarket();
+        danube.setName("Danube");
+        supermarket carrefour = new supermarket();
+        carrefour.setName("Carrefour");
+        supermarket.supermarkets.add(panda) ;
+        supermarket.supermarkets.add(danube) ;
+        supermarket.supermarkets.add(carrefour) ;
+        System.out.println("dddd"+supermarket.supermarkets.size());
+
+        UserLocation();
+        AskForLocations();
 
 
         Toast.makeText(this, "updateing...", Toast.LENGTH_SHORT).show();
@@ -116,9 +131,6 @@ public class browseActivity extends AppCompatActivity  {
             case R.id.sort_by_price:
               SortByPrice();
                 return true;
-            case R.id.sort_by_location:
-                SortByLocation();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -171,7 +183,9 @@ public class browseActivity extends AppCompatActivity  {
 
 
     }
-    public void SortByLocation (){
+
+
+    public void AskForLocations(){
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (ContextCompat.checkSelfPermission(this,
@@ -186,17 +200,9 @@ public class browseActivity extends AppCompatActivity  {
                 builder.setTitle("PERMISSION").setMessage("sorry we need this premission to get you the best location for you");
                 builder.setPositiveButton("OK",null);
                 builder.create().show();
-
-
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                            0);
-
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        0);
             } else {
 
                 // No explanation needed; request the permission
@@ -213,18 +219,86 @@ public class browseActivity extends AppCompatActivity  {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                // Logic to handle location object
+                                for (supermarket su:supermarket.supermarkets) {
+                                    String url = getUrl(location.getLatitude() , location.getLongitude() , su.getName()) ;
+                                    System.out.println(su.getName());
+                                    Object data[] = new Object[2] ;
+                                    data[0] = su ;
+                                    data[1] = url ;
+
+                                    GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData() ;
+                                    getNearbyPlacesData.execute(data) ;
+                                }
                             }
                         }
                     });
         }
+        /*for (supermarket su:supermarket.supermarkets) {
+            String url = getUrl(User.getInstance().getLatLng().latitude , User.getInstance().getLatLng().longitude , su.getName()) ;
+            Object data[] = new Object[2] ;
+            data[0] = su ;
+            data[1] = url ;
+
+            GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData() ;
+            getNearbyPlacesData.execute(data) ;
+        }*/
 
 
+    }
+
+    public String getUrl (double lat , double lng , String NP){
+        StringBuilder googlePlace = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?") ;
+        googlePlace.append("location="+lat+","+lng) ;
+        googlePlace.append("&radius=10000");
+        googlePlace.append("&keyword="+NP+"+supermarket") ;
+        googlePlace.append("&sensor=true") ;
+        googlePlace.append("&key="+"AIzaSyCxAvaQRHD6XqC8tzr3ZQ_uUjEPgcbqsu8");
+
+        return googlePlace.toString() ;
+    }
+
+    public void UserLocation (){
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("PERMISSION").setMessage("sorry we need this premission to get you the best location for you");
+                builder.setPositiveButton("OK",null);
+                builder.create().show();
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        0);
+            } else {
+
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        0);
 
 
+            }
+        } else {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
+                              User.getInstance().setLatLng(latLng);
 
-
-
+                            }
+                        }
+                    });
+        }
     }
 }
 
