@@ -111,4 +111,16 @@ public class items {
     public void setSupermarket(String supermarket) {
         this.supermarket = supermarket;
     }
+
+    public static items getItem (long id , String supermarket){
+
+        for (items item: items.Ar) {
+            if(item.getId() == id && item.getSupermarket().equals(supermarket))
+                return item ;
+
+        }
+
+
+        return null ;
+    }
 }
