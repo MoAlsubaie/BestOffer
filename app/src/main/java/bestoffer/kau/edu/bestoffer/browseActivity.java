@@ -40,6 +40,7 @@ public class browseActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
+        new getcart(this).execute();
 
         supermarket panda = new supermarket();
         panda.setName("Hyper Panda");

@@ -41,7 +41,7 @@ public class mangecart extends AsyncTask<String, Void, String> {
 
             User user = User.getInstance();
 
-            link = "http://bestoffer.gwiddle.co.uk/mangecart.php?i="+i+"&?email=" + user.getEmail()+"&?id="+item.getId()+"&?supermarket="+item.getSupermarket();
+            link = "http://bestoffer.gwiddle.co.uk/mangecart.php?i="+i+"&email=" + user.getEmail()+"&id="+item.getId()+"&supermarket="+item.getSupermarket().toUpperCase();
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -72,7 +72,7 @@ public class mangecart extends AsyncTask<String, Void, String> {
                         cart.cartList.add(item);
 
                     }else if (i == 2){
-                        Toast.makeText(context, "item inserted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "item deleted", Toast.LENGTH_SHORT).show();
                         cart.cartList.remove(item) ;
                     }
 

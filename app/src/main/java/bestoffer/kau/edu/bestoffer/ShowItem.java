@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ShowItem extends AppCompatActivity  implements OnMapReadyCallback {
 public  items item = null ;
     private GoogleMap mMap;
+    int src = 1 ;
 
 
     @Override
@@ -65,15 +66,25 @@ public  items item = null ;
     } else if (item.getSupermarket().equalsIgnoreCase("PA")){
             logo.setImageResource(R.drawable.pa);
         }
+try {
+    if (item.getSupermarket().equalsIgnoreCase(theNearest())) {
+        TextView TheNearest = (TextView) findViewById(R.id.the_nearest);
+        TheNearest.setVisibility(View.VISIBLE);
 
-        if(item.getSupermarket().equalsIgnoreCase(theNearest())){
-            TextView TheNearest = (TextView) findViewById(R.id.the_nearest);
-            TheNearest.setVisibility(View.VISIBLE);
+    }
+}catch(Exception e ){
+        e.printStackTrace();
+}
+        ImageView cartImg = (ImageView) findViewById(R.id.cart) ;
+        int index = cart.cartList.indexOf(item) ;
+        if (index == -1){
+            cartImg.setImageResource(R.drawable.blackcart);
+            src = 0 ;
+        }else{
+            cartImg.setImageResource(R.drawable.greencart);
 
         }
 
-
-       // MapView mapView = (MapView) findViewById(R.id.gridview_logo) ;
 
 
     }
@@ -91,13 +102,14 @@ public  items item = null ;
         }else {
             mysupermarket = supermarket.supermarkets.get(2);
         }
-
-        // Add a marker in Sydney and move the camera
-        supermarketLocation supermarketLocation = mysupermarket.getSupermarketLocations().get(0);
-        LatLng supermarket = supermarketLocation.getLatLng() ;
-        mMap.addMarker(new MarkerOptions().position(supermarket).title(supermarketLocation.getName()+" : "+supermarketLocation.getVicinity()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(supermarket));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        try {
+            // Add a marker in Sydney and move the camera
+            supermarketLocation supermarketLocation = mysupermarket.getSupermarketLocations().get(0);
+            LatLng supermarket = supermarketLocation.getLatLng();
+            mMap.addMarker(new MarkerOptions().position(supermarket).title(supermarketLocation.getName() + " : " + supermarketLocation.getVicinity()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         LatLng user = new LatLng(User.getInstance().getLatLng().latitude , User.getInstance().getLatLng().longitude) ;
         MarkerOptions markerOptions = new MarkerOptions() ;
@@ -105,21 +117,45 @@ public  items item = null ;
         markerOptions.title("YOU");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
         }
 
+        public void click(View v) {
+            ImageView cartimg = (ImageView) findViewById(R.id.cart);
+
+            if(src == 0){
+                cart.cartList.add(this.item);
+                cartimg.setImageResource(R.drawable.greencart);
+                src = 1 ;
+                new mangecart(this , item , 1).execute();
+            }else{
+                cart.cartList.remove(this.item);
+                cartimg.setImageResource(R.drawable.blackcart);
+                src = 0 ;
+                new mangecart(this , item , 2).execute();
+            }
+
+
+        }
+
+
         public String theNearest (){
-            double pa =  supermarket.supermarkets.get(0).getSupermarketLocations().get(0).getDistance() ;
-            double da =  supermarket.supermarkets.get(1).getSupermarketLocations().get(0).getDistance() ;
-            double ca =  supermarket.supermarkets.get(2).getSupermarketLocations().get(0).getDistance() ;
-            if(pa < da && pa<ca)
-                return "PA" ;
-                else if(da<pa && da<ca)
-                return "DA";
-                else
-                return "CA";
+try {
+    double pa = supermarket.supermarkets.get(0).getSupermarketLocations().get(0).getDistance();
+    double da = supermarket.supermarkets.get(1).getSupermarketLocations().get(0).getDistance();
+    double ca = supermarket.supermarkets.get(2).getSupermarketLocations().get(0).getDistance();
+    if (pa < da && pa < ca)
+        return "PA";
+    else if (da < pa && da < ca)
+        return "DA";
+    else
+        return "CA";
+}catch (Exception e){
+    e.printStackTrace();
+}
 
-
-
+return null ;
         }
 
     }
