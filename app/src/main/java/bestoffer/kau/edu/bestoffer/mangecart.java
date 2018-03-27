@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,10 +23,12 @@ public class mangecart extends AsyncTask<String, Void, String> {
     private Context context ;
     private int i;
     private items item;
-    public mangecart(Context context , items item , int i) {
+    private ImageView cartimg ;
+    public mangecart(Context context , items item , int i , ImageView imageView) {
         this.context = context ;
         this.item = item ;
         this.i = i ;
+        this.cartimg = imageView ;
     }
 
     @Override
@@ -41,10 +44,10 @@ public class mangecart extends AsyncTask<String, Void, String> {
 
             User user = User.getInstance();
 
-            link = "http://bestoffer.gwiddle.co.uk/mangecart.php?i="+i+"&email=" + user.getEmail()+"&id="+item.getId()+"&supermarket="+item.getSupermarket().toUpperCase();
+            link = "http://bestoffer.gwiddle.co.uk/mangecart.php?i="+i+"&email=" + user.getEmail()+"&id="+item.getId()+"&supermarket="+item.getSupermarket().toUpperCase().trim();
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
+            System.out.println(link);
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             result = bufferedReader.readLine();
@@ -70,10 +73,11 @@ public class mangecart extends AsyncTask<String, Void, String> {
                     if ( i==1){
                         Toast.makeText(context, "item inserted", Toast.LENGTH_SHORT).show();
                         cart.cartList.add(item);
-
+                        cartimg.setImageResource(R.drawable.greencart);
                     }else if (i == 2){
                         Toast.makeText(context, "item deleted", Toast.LENGTH_SHORT).show();
                         cart.cartList.remove(item) ;
+                        cartimg.setImageResource(R.drawable.blackcart);
                     }
 
                 } else if (query_result.equals("FAILURE")) {

@@ -69,7 +69,7 @@ public class getcart  extends AsyncTask<String, Void, String> {
 
                     for (int i = 0; i < num; i++) {
 
-                        long id = jsonObj.getInt("id" + i);
+                        long id = jsonObj.getLong("id" + i);
                         String supermarket = jsonObj.getString("supermarket" + i);
                         items item = items.getItem(id, supermarket);
                         cart.cartList.add(item);

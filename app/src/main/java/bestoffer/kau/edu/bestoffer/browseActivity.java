@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -57,7 +56,6 @@ public class browseActivity extends AppCompatActivity  {
         AskForLocations();
 
 
-        Toast.makeText(this, "updateing...", Toast.LENGTH_SHORT).show();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar) ;
@@ -69,7 +67,7 @@ public class browseActivity extends AppCompatActivity  {
         else
         BrowseItems(search);
 
-         searchView = (MaterialSearchView)findViewById(R.id.search_view);
+        searchView = (MaterialSearchView)findViewById(R.id.search_view);
 
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
@@ -88,17 +86,8 @@ public class browseActivity extends AppCompatActivity  {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query != null && !query.isEmpty()) {
-
-                 Intent intent = new Intent(context , browseActivity.class ) ;
-                    startActivity(intent);
-
-                }else{
-                    BrowseItems(items.Ar);
-                    search = null ;
+              return true ;
                 }
-                return true ;
-            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -115,6 +104,8 @@ public class browseActivity extends AppCompatActivity  {
                 return true ;
             }
         });
+
+
     }
 
     @Override
@@ -132,6 +123,11 @@ public class browseActivity extends AppCompatActivity  {
             case R.id.sort_by_price:
               SortByPrice();
                 return true;
+
+            case R.id.show_cart:
+                Intent intent = new Intent(context , cartActivity.class);
+                startActivity(intent);
+                return true ;
             default:
                 return super.onOptionsItemSelected(item);
         }

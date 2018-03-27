@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
+<menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
@@ -8,7 +8,7 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:id="@+id/item_filter"
         android:orderInCategory="152"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="filter...">
 
         <menu>
@@ -16,6 +16,10 @@
                 android:id="@+id/sort_by_price"
                 android:title="Sort by price"/>
 
+
+            <item
+                android:id="@+id/show_cart"
+                android:title="ReviewCart"/>
         </menu>
     </item>
 

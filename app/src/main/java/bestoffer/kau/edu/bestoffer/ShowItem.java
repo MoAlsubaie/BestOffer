@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ShowItem extends AppCompatActivity  implements OnMapReadyCallback {
 public  items item = null ;
     private GoogleMap mMap;
+
     int src = 1 ;
 
 
@@ -28,14 +29,17 @@ public  items item = null ;
         setContentView(R.layout.activity_show_item);
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
+        boolean who = intent.getBooleanExtra("who" , false) ;
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        item = items.Ar.get(id);
-
+        if(who){
+         item = cart.cartList.get(id);
+        }else {
+            item = items.Ar.get(id);
+        }
         TextView name = (TextView) findViewById(R.id.item_name);
         name.setText(item.getName());
 
@@ -58,6 +62,7 @@ public  items item = null ;
 
 
         }
+
         ImageView logo = (ImageView) findViewById(R.id.logo) ;
         if (item.getSupermarket().equalsIgnoreCase("CA")){
             logo.setImageResource(R.drawable.ca);
@@ -94,7 +99,6 @@ try {
         mMap = googleMap;
         supermarket mysupermarket = null ;
 
-        System.out.println("dddd"+supermarket.supermarkets.size());
         if(item.getSupermarket().equalsIgnoreCase("pa")){
            mysupermarket = supermarket.supermarkets.get(0);
         } else if(item.getSupermarket().equalsIgnoreCase("da")){
@@ -125,15 +129,15 @@ try {
             ImageView cartimg = (ImageView) findViewById(R.id.cart);
 
             if(src == 0){
-                cart.cartList.add(this.item);
-                cartimg.setImageResource(R.drawable.greencart);
-                src = 1 ;
-                new mangecart(this , item , 1).execute();
+                if(cart.cartList.indexOf(item) == -1) {
+                    src = 1;
+                    new mangecart(this, item, 1 , cartimg).execute();
+                }
             }else{
-                cart.cartList.remove(this.item);
-                cartimg.setImageResource(R.drawable.blackcart);
-                src = 0 ;
-                new mangecart(this , item , 2).execute();
+                if(cart.cartList.indexOf(item) != -1){
+                    src = 0 ;
+                    new mangecart(this , item , 2 , cartimg).execute();
+                }
             }
 
 

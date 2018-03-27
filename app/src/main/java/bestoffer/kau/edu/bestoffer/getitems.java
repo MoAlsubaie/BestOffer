@@ -74,15 +74,15 @@ public class getitems extends AsyncTask<String, Void, String> {
 
                         items item = new items();
                         item.setIndex(i);
-                        item.setId(jsonObj.getInt("id"+i));
-                        item.setName(jsonObj.getString("name"+i));
-                        item.setType(jsonObj.getString("type"+i));
-                        item.setDescription(jsonObj.getString("description"+i));
+                        item.setId(jsonObj.getLong("id"+i));
+                        item.setName(jsonObj.getString("name"+i).trim());
+                        item.setType(jsonObj.getString("type"+i).trim());
+                        item.setDescription(jsonObj.getString("description"+i).trim());
                         item.setPrice(jsonObj.getDouble("price"+i));
-                        item.setPictureLink(jsonObj.getString("picture"+i));
+                        item.setPictureLink(jsonObj.getString("picture"+i).trim());
                         new GetImg(i).execute(item.getPictureLink()) ;
                         item.setOffer(jsonObj.getDouble("offer"+i));
-                        item.setSupermarket(jsonObj.getString("supermarket"+i));
+                        item.setSupermarket(jsonObj.getString("supermarket"+i).trim());
                         items.Ar.add(item);
 
                     }

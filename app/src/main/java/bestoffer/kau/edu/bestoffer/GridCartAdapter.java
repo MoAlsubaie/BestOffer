@@ -1,7 +1,5 @@
 package bestoffer.kau.edu.bestoffer;
 
-
-
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -13,15 +11,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class GridAdapter extends BaseAdapter {
+/**
+ * Created by user on 27/03/18.
+ */
 
+public class GridCartAdapter  extends BaseAdapter {
     private Context mContext;
     private ArrayList<items> Ar ;
-
-
-    public GridAdapter(Context context , ArrayList<items> Ar ) {
-        mContext = context;
-        this.Ar = Ar ;
+    private int i;
+    public GridCartAdapter(Context mContext, ArrayList<items> ar) {
+        this.mContext = mContext;
+        Ar = ar;
     }
 
     @Override
@@ -40,16 +40,15 @@ public class GridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View convertView, ViewGroup parent) {
+    public View getView(final int i, View convertView, ViewGroup viewGroup) {
         View gridViewAndroid;
-
-
+        this.i = i ;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             gridViewAndroid = new View(mContext);
-            gridViewAndroid = inflater.inflate(R.layout.grid_view, null);
+            gridViewAndroid = inflater.inflate(R.layout.grid_view_cart, null);
 
 
 
@@ -66,7 +65,9 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
         TextView textViewAndroidO = (TextView) gridViewAndroid.findViewById(R.id.gridview_priceold);
         ImageView imageViewAndroidLogo = (ImageView) gridViewAndroid.findViewById(R.id.gridview_logo);
-
+        System.out.println(Ar.toString());
+        System.out.println(Ar.size());
+        System.out.println("dsdsdsdsd  "+i);
         textViewAndroid.setText(Ar.get(i).getName());
         imageViewAndroid.setImageBitmap(Ar.get(i).getImg());
         if(Ar.get(i).getSupermarket().equalsIgnoreCase("ca")){
@@ -91,11 +92,6 @@ public class GridAdapter extends BaseAdapter {
 
         return gridViewAndroid;
 
+
     }
-
-
-
-
 }
-
-
