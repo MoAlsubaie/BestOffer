@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 public class items {
-   public static ArrayList<items> Ar = new ArrayList<items>() ;
+   public static ArrayList<items> ItemList = new ArrayList<items>() ;
    private int index ;
     private long id ;
     private String name ;
@@ -114,7 +114,7 @@ public class items {
 
     public static items getItem (long id , String supermarket){
 
-        for (items item: items.Ar) {
+        for (items item: items.ItemList) {
             if(item.getId() == id && item.getSupermarket().equals(supermarket))
                 return item ;
 

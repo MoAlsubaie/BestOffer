@@ -20,10 +20,11 @@ import java.net.URL;
 
 public class deleteall extends AsyncTask<String, Void, String> {
     private Context context ;
+    GridCartAdapter adapterViewAndroid;
 
-    public deleteall(Context context  ) {
+    public deleteall(Context context ,GridCartAdapter adapterViewAndroid  ) {
         this.context = context ;
-
+        this.adapterViewAndroid = adapterViewAndroid ;
     }
 
     @Override
@@ -31,7 +32,6 @@ public class deleteall extends AsyncTask<String, Void, String> {
 
 
         String link;
-
         BufferedReader bufferedReader;
         String result;
 
@@ -66,8 +66,8 @@ public class deleteall extends AsyncTask<String, Void, String> {
                 if (query_result.equals("SUCCESS")) {
                         Toast.makeText(context, "items deleted", Toast.LENGTH_SHORT).show();
 
-                        cart.cartList= null ;
-
+                        cart.cartList.removeAll(cart.cartList);
+                        adapterViewAndroid.notifyDataSetChanged();
 
 
 

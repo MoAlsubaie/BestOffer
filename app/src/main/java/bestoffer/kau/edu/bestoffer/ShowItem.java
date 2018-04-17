@@ -38,7 +38,7 @@ public  items item = null ;
         if(who){
          item = cart.cartList.get(id);
         }else {
-            item = items.Ar.get(id);
+            item = items.ItemList.get(id);
         }
         TextView name = (TextView) findViewById(R.id.item_name);
         name.setText(item.getName());

@@ -83,7 +83,7 @@ public class getitems extends AsyncTask<String, Void, String> {
                         new GetImg(i).execute(item.getPictureLink()) ;
                         item.setOffer(jsonObj.getDouble("offer"+i));
                         item.setSupermarket(jsonObj.getString("supermarket"+i).trim());
-                        items.Ar.add(item);
+                        items.ItemList.add(item);
 
                     }
 

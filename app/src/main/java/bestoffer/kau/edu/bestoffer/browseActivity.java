@@ -63,7 +63,7 @@ public class browseActivity extends AppCompatActivity  {
         getSupportActionBar().setTitle("Best Offer");
         toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
         if(search == null)
-        BrowseItems(items.Ar);
+        BrowseItems(items.ItemList);
         else
         BrowseItems(search);
 
@@ -78,7 +78,7 @@ public class browseActivity extends AppCompatActivity  {
 
             @Override
             public void onSearchViewClosed() {
-                BrowseItems(items.Ar);
+                BrowseItems(items.ItemList);
 
             }
         });
@@ -93,13 +93,13 @@ public class browseActivity extends AppCompatActivity  {
             public boolean onQueryTextChange(String newText) {
                 if (newText != null && !newText.isEmpty()) {
                      search = new ArrayList<items>();
-                    for(items item :items.Ar)
+                    for(items item :items.ItemList)
                         if(item.getDescription().toLowerCase().contains(newText.toLowerCase()))
                             search.add(item);
                             BrowseItems(search);
                 }else{
                     search = null ;
-                    BrowseItems(items.Ar);
+                    BrowseItems(items.ItemList);
                 }
                 return true ;
             }
@@ -161,13 +161,13 @@ public class browseActivity extends AppCompatActivity  {
 
     public void SortByPrice (){
         if(search==null){
-            Collections.sort(items.Ar, new Comparator<items>() {
+            Collections.sort(items.ItemList, new Comparator<items>() {
                 @Override
                 public int compare(items c1, items c2) {
                     return Double.compare(c1.getPrice(), c2.getPrice());
                 }
             });
-            BrowseItems(items.Ar);
+            BrowseItems(items.ItemList);
         }else{
             Collections.sort(search, new Comparator<items>() {
                 @Override

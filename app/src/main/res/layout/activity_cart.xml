@@ -35,11 +35,18 @@
     <GridView
         android:id="@+id/gridViewCart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="490dp"
         android:layout_below="@+id/toolbar_cart"
         android:columnWidth="200dp"
         android:gravity="center"
         android:numColumns="auto_fit" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/gridViewCart"
+        android:text="DELETE ALL CART"
+        android:onClick="deleteAll"/>
 
 
 </RelativeLayout>

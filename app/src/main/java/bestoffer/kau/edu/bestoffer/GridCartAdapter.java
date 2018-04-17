@@ -17,26 +17,26 @@ import java.util.ArrayList;
 
 public class GridCartAdapter  extends BaseAdapter {
     private Context mContext;
-    private ArrayList<items> Ar ;
+    private ArrayList<items> CartList ;
     private int i;
     public GridCartAdapter(Context mContext, ArrayList<items> ar) {
         this.mContext = mContext;
-        Ar = ar;
+        CartList = ar;
     }
 
     @Override
     public int getCount() {
-        return Ar.size();
+        return CartList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return Ar.get(i);
+        return CartList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return Ar.get(i).getId();
+        return CartList.get(i).getId();
     }
 
     @Override
@@ -65,25 +65,25 @@ public class GridCartAdapter  extends BaseAdapter {
         ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
         TextView textViewAndroidO = (TextView) gridViewAndroid.findViewById(R.id.gridview_priceold);
         ImageView imageViewAndroidLogo = (ImageView) gridViewAndroid.findViewById(R.id.gridview_logo);
-        System.out.println(Ar.toString());
-        System.out.println(Ar.size());
+        System.out.println(CartList.toString());
+        System.out.println(CartList.size());
         System.out.println("dsdsdsdsd  "+i);
-        textViewAndroid.setText(Ar.get(i).getName());
-        imageViewAndroid.setImageBitmap(Ar.get(i).getImg());
-        if(Ar.get(i).getSupermarket().equalsIgnoreCase("ca")){
+        textViewAndroid.setText(CartList.get(i).getName());
+        imageViewAndroid.setImageBitmap(CartList.get(i).getImg());
+        if(CartList.get(i).getSupermarket().equalsIgnoreCase("ca")){
             imageViewAndroidLogo.setImageResource(R.drawable.ca);
-        }else if(Ar.get(i).getSupermarket().equalsIgnoreCase("da")){
+        }else if(CartList.get(i).getSupermarket().equalsIgnoreCase("da")){
             imageViewAndroidLogo.setImageResource(R.drawable.da);
         }else{
             imageViewAndroidLogo.setImageResource(R.drawable.pa);
         }
 
-        if(Ar.get(i).getOffer() != 0){
-            textViewAndroidO.setText(String.valueOf(Ar.get(i).getOffer()));
-            textViewAndroidP.setText(String.valueOf(Ar.get(i).getPrice()));
+        if(CartList.get(i).getOffer() != 0){
+            textViewAndroidO.setText(String.valueOf(CartList.get(i).getOffer()));
+            textViewAndroidP.setText(String.valueOf(CartList.get(i).getPrice()));
             textViewAndroidO.setPaintFlags(textViewAndroidO.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }else{
-            textViewAndroidP.setText(String.valueOf(Ar.get(i).getPrice()));
+            textViewAndroidP.setText(String.valueOf(CartList.get(i).getPrice()));
             textViewAndroidO.setText("");
 
         }
