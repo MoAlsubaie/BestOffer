@@ -1,5 +1,7 @@
 package bestoffer.kau.edu.bestoffer;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by user on 03/02/18.
  */
@@ -10,6 +12,15 @@ public class User {
     private String email ;
     private String password ;
     private static User instance = null;
+    private LatLng latLng ;
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
 
     private User(){}
 

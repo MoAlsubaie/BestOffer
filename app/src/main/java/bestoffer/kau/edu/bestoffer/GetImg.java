@@ -39,7 +39,7 @@ public class GetImg extends AsyncTask<String, Void, Bitmap> {
 
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
-        items.Ar.get(i).setImg(result);
+        items.ItemList.get(i).setImg(result);
 
 
 

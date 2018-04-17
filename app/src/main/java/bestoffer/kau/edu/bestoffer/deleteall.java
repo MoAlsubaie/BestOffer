@@ -1,7 +1,6 @@
 package bestoffer.kau.edu.bestoffer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -16,32 +15,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by user on 10/02/18.
+ * Created by user on 25/03/18.
  */
 
-public class getitems extends AsyncTask<String, Void, String> {
+public class deleteall extends AsyncTask<String, Void, String> {
     private Context context ;
+    GridCartAdapter adapterViewAndroid;
 
-
-    public getitems(Context context) {
+    public deleteall(Context context ,GridCartAdapter adapterViewAndroid  ) {
         this.context = context ;
+        this.adapterViewAndroid = adapterViewAndroid ;
     }
 
     @Override
     protected String doInBackground(String... args) {
 
 
-
-        String link ;
-
-        BufferedReader bufferedReader ;
-        String result ;
+        String link;
+        BufferedReader bufferedReader;
+        String result;
 
         try {
 
+            User user = User.getInstance();
 
-
-            link = "http://bestoffer.gwiddle.co.uk/getitems.php";
+            link = "http://bestoffer.gwiddle.co.uk/delete_all_cart.php?email=" + user.getEmail();
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -52,7 +50,6 @@ public class getitems extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             return new String("Exception: " + e.getMessage());
         }
-
 
 
     }
@@ -67,29 +64,13 @@ public class getitems extends AsyncTask<String, Void, String> {
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                    Toast.makeText(context, "items updated", Toast.LENGTH_SHORT).show();
-                        int num = jsonObj.getInt("i") ;
+                        Toast.makeText(context, "items deleted", Toast.LENGTH_SHORT).show();
 
-                    for (int i = 0; i < num; i++) {
-
-                        items item = new items();
-                        item.setIndex(i);
-                        item.setId(jsonObj.getLong("id"+i));
-                        item.setName(jsonObj.getString("name"+i).trim());
-                        item.setType(jsonObj.getString("type"+i).trim());
-                        item.setDescription(jsonObj.getString("description"+i).trim());
-                        item.setPrice(jsonObj.getDouble("price"+i));
-                        item.setPictureLink(jsonObj.getString("picture"+i).trim());
-                        new GetImg(i).execute(item.getPictureLink()) ;
-                        item.setOffer(jsonObj.getDouble("offer"+i));
-                        item.setSupermarket(jsonObj.getString("supermarket"+i).trim());
-                        items.ItemList.add(item);
-
-                    }
+                        cart.cartList.removeAll(cart.cartList);
+                        adapterViewAndroid.notifyDataSetChanged();
 
 
-                    Intent intent = new Intent(context, browseActivity.class);
-                    context.startActivity(intent);
+
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "there is something wrong please try again later", Toast.LENGTH_SHORT).show();
                 } else {
@@ -104,4 +85,7 @@ public class getitems extends AsyncTask<String, Void, String> {
             Toast.makeText(context, "Somthing went wrong Please try again later.", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
+
+

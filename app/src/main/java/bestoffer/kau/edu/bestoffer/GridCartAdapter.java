@@ -1,7 +1,5 @@
 package bestoffer.kau.edu.bestoffer;
 
-
-
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -13,43 +11,44 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class GridAdapter extends BaseAdapter {
+/**
+ * Created by user on 27/03/18.
+ */
 
+public class GridCartAdapter  extends BaseAdapter {
     private Context mContext;
-    private ArrayList<items> Ar ;
-
-
-    public GridAdapter(Context context , ArrayList<items> Ar ) {
-        mContext = context;
-        this.Ar = Ar ;
+    private ArrayList<items> CartList ;
+    private int i;
+    public GridCartAdapter(Context mContext, ArrayList<items> ar) {
+        this.mContext = mContext;
+        CartList = ar;
     }
 
     @Override
     public int getCount() {
-        return Ar.size();
+        return CartList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return Ar.get(i);
+        return CartList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return Ar.get(i).getId();
+        return CartList.get(i).getId();
     }
 
     @Override
-    public View getView(final int i, View convertView, ViewGroup parent) {
+    public View getView(final int i, View convertView, ViewGroup viewGroup) {
         View gridViewAndroid;
-
-
+        this.i = i ;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             gridViewAndroid = new View(mContext);
-            gridViewAndroid = inflater.inflate(R.layout.grid_view, null);
+            gridViewAndroid = inflater.inflate(R.layout.grid_view_cart, null);
 
 
 
@@ -66,23 +65,25 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
         TextView textViewAndroidO = (TextView) gridViewAndroid.findViewById(R.id.gridview_priceold);
         ImageView imageViewAndroidLogo = (ImageView) gridViewAndroid.findViewById(R.id.gridview_logo);
-
-        textViewAndroid.setText(Ar.get(i).getName());
-        imageViewAndroid.setImageBitmap(Ar.get(i).getImg());
-        if(Ar.get(i).getSupermarket().equalsIgnoreCase("ca")){
+        System.out.println(CartList.toString());
+        System.out.println(CartList.size());
+        System.out.println("dsdsdsdsd  "+i);
+        textViewAndroid.setText(CartList.get(i).getName());
+        imageViewAndroid.setImageBitmap(CartList.get(i).getImg());
+        if(CartList.get(i).getSupermarket().equalsIgnoreCase("ca")){
             imageViewAndroidLogo.setImageResource(R.drawable.ca);
-        }else if(Ar.get(i).getSupermarket().equalsIgnoreCase("da")){
+        }else if(CartList.get(i).getSupermarket().equalsIgnoreCase("da")){
             imageViewAndroidLogo.setImageResource(R.drawable.da);
         }else{
             imageViewAndroidLogo.setImageResource(R.drawable.pa);
         }
 
-        if(Ar.get(i).getOffer() != 0){
-            textViewAndroidO.setText(String.valueOf(Ar.get(i).getOffer()));
-            textViewAndroidP.setText(String.valueOf(Ar.get(i).getPrice()));
+        if(CartList.get(i).getOffer() != 0){
+            textViewAndroidO.setText(String.valueOf(CartList.get(i).getOffer()));
+            textViewAndroidP.setText(String.valueOf(CartList.get(i).getPrice()));
             textViewAndroidO.setPaintFlags(textViewAndroidO.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }else{
-            textViewAndroidP.setText(String.valueOf(Ar.get(i).getPrice()));
+            textViewAndroidP.setText(String.valueOf(CartList.get(i).getPrice()));
             textViewAndroidO.setText("");
 
         }
@@ -91,11 +92,6 @@ public class GridAdapter extends BaseAdapter {
 
         return gridViewAndroid;
 
+
     }
-
-
-
-
 }
-
-
