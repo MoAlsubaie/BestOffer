@@ -43,7 +43,7 @@ public class supermarketLocation {
     public void setName(String name) {
         this.name = name;
     }
-
+//
 
     private static float distance( LatLng last){
         LatLng current = User.getInstance().getLatLng();

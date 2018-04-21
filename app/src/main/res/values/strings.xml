@@ -5,12 +5,11 @@
     <string name="sginin">Sign in</string>
     <string name="massegeSignup">you do not have an account ?</string>
     <string name="massege2"> <u>Sign up</u> </string>
-    <string name="massege1">the Password do not match</string>
+    <string name="massege1">the Password does not match</string>
     <string name="fillData">please fill all the data needed</string>
     <string name="emailEx">E-mail is invalid</string>
     <string name="pricture_of_an_item">pricture of an item</string>
     <string name="logo">logo</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyDMTLH8zZF4agQ4mbD3GMkjT2WefqeO7u4</string>
-
 </resources>

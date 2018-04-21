@@ -11,8 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -35,7 +37,7 @@ public class getitems extends AsyncTask<String, Void, String> {
         String link ;
 
         BufferedReader bufferedReader ;
-        String result ;
+        String result="" ;
 
         try {
 
@@ -43,17 +45,19 @@ public class getitems extends AsyncTask<String, Void, String> {
 
             link = "http://bestoffer.gwiddle.co.uk/getitems.php";
             URL url = new URL(link);
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             result = bufferedReader.readLine();
-            return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
+        }  catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
+        return result;
 
     }
 

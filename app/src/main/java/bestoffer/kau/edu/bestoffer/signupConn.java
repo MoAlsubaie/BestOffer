@@ -8,14 +8,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
 class signupConn extends AsyncTask<String, Void, String> {
 
-    private Context context ;
+   final private Context context ;
     private String firstname ;
     private String lastname ;
     private String email ;
@@ -35,27 +37,27 @@ class signupConn extends AsyncTask<String, Void, String> {
         String link ;
         String data ;
         BufferedReader bufferedReader ;
-        String result ;
+        String result="" ;
 
         try {
-            data = "?firstname=" + URLEncoder.encode(firstname, "UTF-8");
-            data += "&lastname=" + URLEncoder.encode(lastname, "UTF-8");
-            data += "&email=" + URLEncoder.encode(email, "UTF-8");
-            data += "&password=" + URLEncoder.encode(password, "UTF-8");
-
+            data = "?firstname=" +firstname;
+            data += "&lastname=" + lastname;
+            data += "&email=" + email;
+            data += "&password=" +password;
             link = "http://bestoffer.gwiddle.co.uk/createuser.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
             result = bufferedReader.readLine();
-            return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
-
+        return result;
     }
 
 
@@ -86,7 +88,7 @@ class signupConn extends AsyncTask<String, Void, String> {
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "check your internet connection Please.", Toast.LENGTH_SHORT).show();
-                System.out.println(e.getMessage());
+
             }
         } else {
             Toast.makeText(context, "Somthing went wrong Please try again later.", Toast.LENGTH_SHORT).show();

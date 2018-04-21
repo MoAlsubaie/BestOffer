@@ -8,8 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -35,12 +38,12 @@ public class signinConn extends AsyncTask<String, Void, String> {
         String link ;
         String data ;
         BufferedReader bufferedReader ;
-        String result ;
+        String result = "" ;
 
         try {
 
-            data = "?email=" + URLEncoder.encode(email, "UTF-8");
-            data += "&password=" + URLEncoder.encode(password, "UTF-8");
+            data = "?email=" + email;
+            data += "&password=" + password;
 
             link = "http://bestoffer.gwiddle.co.uk/signin.php" + data;
             URL url = new URL(link);
@@ -48,13 +51,14 @@ public class signinConn extends AsyncTask<String, Void, String> {
 
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
             result = bufferedReader.readLine();
-            return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
-
+        return result;
     }
 
 
@@ -85,9 +89,7 @@ public class signinConn extends AsyncTask<String, Void, String> {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(context, "check your internet connection Please.", Toast.LENGTH_SHORT).show();
-                System.out.println(e.getMessage());
-            }
+                Toast.makeText(context, "check your internet connection Please.", Toast.LENGTH_SHORT).show(); }
         } else {
             Toast.makeText(context, "Somthing went wrong Please try again later.", Toast.LENGTH_SHORT).show();
         }

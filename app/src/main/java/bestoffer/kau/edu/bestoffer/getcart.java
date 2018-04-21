@@ -10,8 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -33,7 +35,7 @@ public class getcart  extends AsyncTask<String, Void, String> {
         String link;
 
         BufferedReader bufferedReader;
-        String result;
+        String result = null;
 
         try {
 
@@ -46,12 +48,14 @@ public class getcart  extends AsyncTask<String, Void, String> {
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             result = bufferedReader.readLine();
-            return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
+        return  result ;
     }
 
 
@@ -68,8 +72,7 @@ public class getcart  extends AsyncTask<String, Void, String> {
                     int num = jsonObj.getInt("i");
 
                     for (int i = 0; i < num; i++) {
-
-                        long id = jsonObj.getLong("id" + i);
+                        long id = jsonObj.getLong("id"+i);
                         String supermarket = jsonObj.getString("supermarket" + i);
                         items item = items.getItem(id, supermarket);
                         cart.cartList.add(item);
@@ -83,7 +86,7 @@ public class getcart  extends AsyncTask<String, Void, String> {
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "check your internet connection Please.", Toast.LENGTH_SHORT).show();
-                System.out.println(e.getMessage());
+
             }
         } else {
             Toast.makeText(context, "Somthing went wrong Please try again later.", Toast.LENGTH_SHORT).show();

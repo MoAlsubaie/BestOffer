@@ -65,9 +65,6 @@ public class GridCartAdapter  extends BaseAdapter {
         ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.gridview_image);
         TextView textViewAndroidO = (TextView) gridViewAndroid.findViewById(R.id.gridview_priceold);
         ImageView imageViewAndroidLogo = (ImageView) gridViewAndroid.findViewById(R.id.gridview_logo);
-        System.out.println(CartList.toString());
-        System.out.println(CartList.size());
-        System.out.println("dsdsdsdsd  "+i);
         textViewAndroid.setText(CartList.get(i).getName());
         imageViewAndroid.setImageBitmap(CartList.get(i).getImg());
         if(CartList.get(i).getSupermarket().equalsIgnoreCase("ca")){

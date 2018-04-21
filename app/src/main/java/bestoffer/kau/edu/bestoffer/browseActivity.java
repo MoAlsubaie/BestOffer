@@ -1,6 +1,7 @@
 package bestoffer.kau.edu.bestoffer;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,6 +36,7 @@ public class browseActivity extends AppCompatActivity  {
     static ArrayList<items> search ;
     private FusedLocationProviderClient mFusedLocationClient ;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,6 @@ public class browseActivity extends AppCompatActivity  {
         supermarket.supermarkets.add(panda) ;
         supermarket.supermarkets.add(danube) ;
         supermarket.supermarkets.add(carrefour) ;
-        System.out.println("dddd"+supermarket.supermarkets.size());
 
         UserLocation();
         AskForLocations();
@@ -218,7 +219,6 @@ public class browseActivity extends AppCompatActivity  {
                             if (location != null) {
                                 for (supermarket su:supermarket.supermarkets) {
                                     String url = getUrl(location.getLatitude() , location.getLongitude() , su.getName()) ;
-                                    System.out.println(su.getName());
                                     Object data[] = new Object[2] ;
                                     data[0] = su ;
                                     data[1] = url ;
@@ -226,19 +226,12 @@ public class browseActivity extends AppCompatActivity  {
                                     GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData() ;
                                     getNearbyPlacesData.execute(data) ;
                                 }
+
                             }
                         }
                     });
         }
-        /*for (supermarket su:supermarket.supermarkets) {
-            String url = getUrl(User.getInstance().getLatLng().latitude , User.getInstance().getLatLng().longitude , su.getName()) ;
-            Object data[] = new Object[2] ;
-            data[0] = su ;
-            data[1] = url ;
 
-            GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData() ;
-            getNearbyPlacesData.execute(data) ;
-        }*/
 
 
     }
@@ -249,7 +242,7 @@ public class browseActivity extends AppCompatActivity  {
         googlePlace.append("&radius=10000");
         googlePlace.append("&keyword="+NP+"+supermarket") ;
         googlePlace.append("&sensor=true") ;
-        googlePlace.append("&key="+"AIzaSyCxAvaQRHD6XqC8tzr3ZQ_uUjEPgcbqsu8");
+        googlePlace.append("&key="+R.string.google_maps_key);
 
         return googlePlace.toString() ;
     }
@@ -297,5 +290,7 @@ public class browseActivity extends AppCompatActivity  {
                     });
         }
     }
+
+
 }
 

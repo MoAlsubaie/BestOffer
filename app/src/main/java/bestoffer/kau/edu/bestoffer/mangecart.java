@@ -11,8 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -47,13 +49,16 @@ public class mangecart extends AsyncTask<String, Void, String> {
             link = "http://bestoffer.gwiddle.co.uk/mangecart.php?i="+i+"&email=" + user.getEmail()+"&id="+item.getId()+"&supermarket="+item.getSupermarket().toUpperCase().trim();
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            System.out.println(link);
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             result = bufferedReader.readLine();
             return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
+        } catch (MalformedURLException e) {
+            return new String("MalformedURLException: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new String("IOException: " + e.getMessage());
+
         }
 
 
@@ -88,7 +93,7 @@ public class mangecart extends AsyncTask<String, Void, String> {
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "check your internet connection Please.", Toast.LENGTH_SHORT).show();
-                System.out.println(e.getMessage());
+
             }
         } else {
             Toast.makeText(context, "Somthing went wrong Please try again later.", Toast.LENGTH_SHORT).show();

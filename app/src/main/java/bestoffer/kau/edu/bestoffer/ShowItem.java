@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -149,13 +150,17 @@ try {
     double pa = supermarket.supermarkets.get(0).getSupermarketLocations().get(0).getDistance();
     double da = supermarket.supermarkets.get(1).getSupermarketLocations().get(0).getDistance();
     double ca = supermarket.supermarkets.get(2).getSupermarketLocations().get(0).getDistance();
+
     if (pa < da && pa < ca)
         return "PA";
     else if (da < pa && da < ca)
         return "DA";
-    else
+    else if (ca < da && ca < pa)
         return "CA";
-}catch (Exception e){
+    else {
+        throw new DistanceExpetion();
+    }
+}catch (DistanceExpetion e){
     e.printStackTrace();
 }
 

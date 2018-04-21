@@ -10,8 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -33,8 +35,8 @@ public class deleteall extends AsyncTask<String, Void, String> {
 
         String link;
         BufferedReader bufferedReader;
-        String result;
-
+        String result="";
+    //start conn by Email
         try {
 
             User user = User.getInstance();
@@ -45,12 +47,15 @@ public class deleteall extends AsyncTask<String, Void, String> {
 
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-            result = bufferedReader.readLine();
-            return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
-        }
+                       result = bufferedReader.readLine();
 
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
 
     }
 
@@ -64,7 +69,7 @@ public class deleteall extends AsyncTask<String, Void, String> {
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                        Toast.makeText(context, "items deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "all items deleted", Toast.LENGTH_SHORT).show();
 
                         cart.cartList.removeAll(cart.cartList);
                         adapterViewAndroid.notifyDataSetChanged();

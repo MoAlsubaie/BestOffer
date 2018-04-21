@@ -25,7 +25,7 @@ Context context = this ;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cart) ;
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Best Offer");
+        getSupportActionBar().setTitle(R.string.app_name);
         toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
 
          adapterViewAndroid = new GridCartAdapter(this,cart.cartList);
