@@ -112,8 +112,8 @@ try {
             supermarketLocation supermarketLocation = mysupermarket.getSupermarketLocations().get(0);
             LatLng supermarket = supermarketLocation.getLatLng();
             mMap.addMarker(new MarkerOptions().position(supermarket).title(supermarketLocation.getName() + " : " + supermarketLocation.getVicinity()));
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (IndexOutOfBoundsException e){
+            Toast.makeText(this , "CAN NOT LOAD THE LOCATION PLEASE TRY AGAIN LATER" , Toast.LENGTH_SHORT).show();
         }
 
         LatLng user = new LatLng(User.getInstance().getLatLng().latitude , User.getInstance().getLatLng().longitude) ;
@@ -161,7 +161,7 @@ try {
         throw new DistanceExpetion();
     }
 }catch (DistanceExpetion e){
-    e.printStackTrace();
+    Toast.makeText(this , "CAN NOT LOAD THE LOCATION PLEASE TRY AGAIN LATER" , Toast.LENGTH_SHORT).show();
 }
 
 return null ;

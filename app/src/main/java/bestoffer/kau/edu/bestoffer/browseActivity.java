@@ -1,7 +1,6 @@
 package bestoffer.kau.edu.bestoffer;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -242,7 +241,7 @@ public class browseActivity extends AppCompatActivity  {
         googlePlace.append("&radius=10000");
         googlePlace.append("&keyword="+NP+"+supermarket") ;
         googlePlace.append("&sensor=true") ;
-        googlePlace.append("&key="+R.string.google_maps_key);
+        googlePlace.append("&key="+"AIzaSyCATto4Tmkuvk1jLvPVz1cHJcXET8bg3sM");
 
         return googlePlace.toString() ;
     }

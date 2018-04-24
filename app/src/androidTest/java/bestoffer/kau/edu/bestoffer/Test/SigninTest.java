@@ -1,12 +1,11 @@
 package bestoffer.kau.edu.bestoffer.Test;
 
 
-import bestoffer.kau.edu.bestoffer.browseActivity ;
-
+import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import android.test.UiThreadTest;
 import android.test.ViewAsserts;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 
 import bestoffer.kau.edu.bestoffer.MainActivity;
 import bestoffer.kau.edu.bestoffer.R;
+import bestoffer.kau.edu.bestoffer.browseActivity;
 
 public class SigninTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -23,6 +23,7 @@ public class SigninTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private EditText email ;
     private EditText password ;
     private Button button ;
+    private Instrumentation ins  = getInstrumentation();
 
     public SigninTest() {
         super(MainActivity.class);
@@ -30,7 +31,7 @@ public class SigninTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
     protected  void setUp()throws Exception{
         setActivityInitialTouchMode(true);
-
+        ins = getInstrumentation() ;
         signin= getActivity();
         email = (EditText) signin.findViewById(R.id.Email);
         password=(EditText)signin.findViewById(R.id.Password);
@@ -46,30 +47,65 @@ public class SigninTest extends ActivityInstrumentationTestCase2<MainActivity> {
         assertNotNull("PasswordEditText is null", password);
         assertNotNull("Button is null", button);
     }
- /* @MediumTest
-    public void testEmptyClick(){
-        TouchUtils.clickView(this,button);
+  @MediumTest
+    public void testEmptyClick() {
+      TouchUtils.clickView(this, button);
+      AlertDialog dialog = signin.getLastDialog();
+      if (dialog.isShowing()) {
+          try {
+              performClick(dialog.getButton(DialogInterface.BUTTON_POSITIVE));
+          } catch (Throwable e) {
+              e.printStackTrace();
+          }
 
-    }*/
+      }
+  }
 
-    @UiThreadTest
-    public void testsignIn (){
-        final View decorView = signin.getWindow().getDecorView();
-        ViewAsserts.assertOnScreen(decorView,button);
-        email.requestFocus();
-        email.setText("x@x.com");
-        password.requestFocus();
-        password.setText("f");
-        TouchUtils.clickView(this,button);
-        Instrumentation.ActivityMonitor browseMon =
-                getInstrumentation().addMonitor(browseActivity.class.getName() , null , false) ;
 
+    @LargeTest
+    public void testsignIn ()  {
+        Instrumentation.ActivityMonitor browseMon = ins.addMonitor(browseActivity.class.getName() , null , false) ;
         getInstrumentation().waitForIdleSync();
 
-        browseActivity browse = (browseActivity) browseMon.waitForActivityWithTimeout(5000) ;
+        final View decorView = signin.getWindow().getDecorView();
+        ViewAsserts.assertOnScreen(decorView,button);
+        signin.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                email.requestFocus();
+                email.setText("x@x.com");
+                password.requestFocus();
+                password.setText("f");
+            }
+        });
+        try {
+            performClick(button);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        browseActivity browse = (browseActivity) browseMon.waitForActivityWithTimeout(20000) ;
 
         assertNotNull("browse is null",browse);
 
     }
 
+
+
+    private void performClick(final Button button) throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                button.performClick();
+            }
+        });
+        getInstrumentation().waitForIdleSync();
+    }
+
 }
+
+
+
+
+
+

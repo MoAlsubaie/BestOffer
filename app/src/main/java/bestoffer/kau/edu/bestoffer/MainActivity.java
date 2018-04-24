@@ -1,18 +1,20 @@
 package bestoffer.kau.edu.bestoffer;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
     AlertDialog.Builder builder = null ;
+    android.app.AlertDialog alertDialog = null ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this) ;
         builder.setTitle("Warning").setMessage(str_mesg);
         builder.setPositiveButton("Okay", null);
-        builder.create().show();
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     public boolean isemailValid(String email) {
@@ -74,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         return etText.trim().length() == 0;
     }
 
-
+public AlertDialog getLastDialog(){
+        return alertDialog ;
+}
 
 }
