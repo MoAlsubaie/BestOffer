@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
             editText = (EditText) findViewById(R.id.Password);
             String ps = editText.getText().toString();
-            if (isEmpty(Em) || isEmpty(ps))
+            if (Em.trim().isEmpty() || ps.trim().isEmpty())
                 throw new NullPointerException();
             if (!isemailValid(Em))
                 throw new EmailExeption();
@@ -73,11 +73,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean isEmpty(String etText) {
-        return etText.trim().length() == 0;
-    }
 
-public AlertDialog getLastDialog(){
+    public AlertDialog getLastDialog(){
         return alertDialog ;
 }
 

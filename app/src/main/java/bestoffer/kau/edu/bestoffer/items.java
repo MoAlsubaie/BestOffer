@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class items {
    public static ArrayList<items> ItemList = new ArrayList<items>() ;
    private int index ;
-    private long id ;
+    private String id ;
     private String name ;
     private String type ;
     private String description ;
@@ -37,11 +37,11 @@ public class items {
         this.index = index;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -90,17 +90,7 @@ public class items {
     }
 
     public void setOffer(double offer) {
-        if(offer ==0) {
-
-            this.offer = offer;
-        }else{
-            offer/= 100 ;
-
-            this.offer = offer * this.price ;
-            double temp = this.price ;
-            this.price = this.price - this.offer ;
-            this.offer = temp ;
-        }
+        this.offer = offer ;
 
     }
 
@@ -112,15 +102,24 @@ public class items {
         this.supermarket = supermarket;
     }
 
-    public static items getItem (long id , String supermarket){
+    public static items getItem (String id , String supermarket){
 
         for (items item: items.ItemList) {
-            if(item.getId() == id && item.getSupermarket().equals(supermarket))
+            if(item.getId().equals(id) && item.getSupermarket().equals(supermarket))
                 return item ;
 
         }
 
 
+        return null ;
+    }
+
+    public static items getItemByIndex(int index){
+
+        for (items item:items.ItemList) {
+            if(item.getIndex() == index)
+                return item ;
+        }
         return null ;
     }
 }

@@ -84,7 +84,7 @@ public class SigninTest extends ActivityInstrumentationTestCase2<MainActivity> {
             throwable.printStackTrace();
         }
 
-        browseActivity browse = (browseActivity) browseMon.waitForActivityWithTimeout(20000) ;
+        browseActivity browse = (browseActivity) browseMon.waitForActivityWithTimeout(25000) ;
 
         assertNotNull("browse is null",browse);
 

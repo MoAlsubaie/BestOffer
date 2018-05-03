@@ -39,7 +39,7 @@ public  items item = null ;
         if(who){
          item = cart.cartList.get(id);
         }else {
-            item = items.ItemList.get(id);
+            item = items.getItemByIndex(id);
         }
         TextView name = (TextView) findViewById(R.id.item_name);
         name.setText(item.getName());
@@ -71,6 +71,8 @@ public  items item = null ;
             logo.setImageResource(R.drawable.da);
     } else if (item.getSupermarket().equalsIgnoreCase("PA")){
             logo.setImageResource(R.drawable.pa);
+        } else if (item.getSupermarket().equalsIgnoreCase("LU")){
+            logo.setImageResource(R.drawable.lu);
         }
 try {
     if (item.getSupermarket().equalsIgnoreCase(theNearest())) {
@@ -104,8 +106,10 @@ try {
            mysupermarket = supermarket.supermarkets.get(0);
         } else if(item.getSupermarket().equalsIgnoreCase("da")){
             mysupermarket = supermarket.supermarkets.get(1);
-        }else {
+        }else if(item.getSupermarket().equalsIgnoreCase("ca")){
             mysupermarket = supermarket.supermarkets.get(2);
+        }else  {
+            mysupermarket = supermarket.supermarkets.get(3);
         }
         try {
             // Add a marker in Sydney and move the camera
@@ -114,6 +118,8 @@ try {
             mMap.addMarker(new MarkerOptions().position(supermarket).title(supermarketLocation.getName() + " : " + supermarketLocation.getVicinity()));
         }catch (IndexOutOfBoundsException e){
             Toast.makeText(this , "CAN NOT LOAD THE LOCATION PLEASE TRY AGAIN LATER" , Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException e){
+            Toast.makeText(this , "STILL LOADING THE LOCATIONS ." , Toast.LENGTH_SHORT).show();
         }
 
         LatLng user = new LatLng(User.getInstance().getLatLng().latitude , User.getInstance().getLatLng().longitude) ;
@@ -146,25 +152,35 @@ try {
 
 
         public String theNearest (){
-try {
-    double pa = supermarket.supermarkets.get(0).getSupermarketLocations().get(0).getDistance();
-    double da = supermarket.supermarkets.get(1).getSupermarketLocations().get(0).getDistance();
-    double ca = supermarket.supermarkets.get(2).getSupermarketLocations().get(0).getDistance();
+            try {
+                double pa = supermarket.supermarkets.get(0).getSupermarketLocations().get(0).getDistance();
+                double da = supermarket.supermarkets.get(1).getSupermarketLocations().get(0).getDistance();
+                double ca = supermarket.supermarkets.get(2).getSupermarketLocations().get(0).getDistance();
+                double lu = supermarket.supermarkets.get(3).getSupermarketLocations().get(0).getDistance();
 
-    if (pa < da && pa < ca)
-        return "PA";
-    else if (da < pa && da < ca)
-        return "DA";
-    else if (ca < da && ca < pa)
-        return "CA";
-    else {
-        throw new DistanceExpetion();
-    }
-}catch (DistanceExpetion e){
-    Toast.makeText(this , "CAN NOT LOAD THE LOCATION PLEASE TRY AGAIN LATER" , Toast.LENGTH_SHORT).show();
-}
+                if (pa < da && pa < ca)
+                    if(pa < lu)
+                        return "LU";
+                    else
+                        return "PA" ;
+                else if (da < pa && da < ca)
+                    if(da < lu)
+                        return "LU";
+                    else
+                        return "DA";
+                else if (ca < da && ca < pa)
+                    if(ca < lu)
+                        return "LU";
+                    else
+                        return "CA";
+                else {
+                    throw new DistanceExpetion();
+                }
+            }catch (DistanceExpetion e){
+                Toast.makeText(this , "CAN NOT LOAD THE LOCATION PLEASE TRY AGAIN LATER" , Toast.LENGTH_SHORT).show();
+            }
 
-return null ;
+            return null ;
         }
 
     }

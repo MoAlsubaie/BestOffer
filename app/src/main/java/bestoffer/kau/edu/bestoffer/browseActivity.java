@@ -48,9 +48,12 @@ public class browseActivity extends AppCompatActivity  {
         danube.setName("Danube");
         supermarket carrefour = new supermarket();
         carrefour.setName("Carrefour");
+        supermarket lulu = new supermarket();
+        carrefour.setName("Lulu Hypermarket");
         supermarket.supermarkets.add(panda) ;
         supermarket.supermarkets.add(danube) ;
         supermarket.supermarkets.add(carrefour) ;
+        supermarket.supermarkets.add(lulu) ;
 
         UserLocation();
         AskForLocations();
@@ -96,7 +99,13 @@ public class browseActivity extends AppCompatActivity  {
                     for(items item :items.ItemList)
                         if(item.getDescription().toLowerCase().contains(newText.toLowerCase()))
                             search.add(item);
-                            BrowseItems(search);
+                    Collections.sort(search, new Comparator<items>() {
+                        @Override
+                        public int compare(items c1, items c2) {
+                            return Double.compare(c1.getPrice(), c2.getPrice());
+                        }
+                    });
+                    BrowseItems(search);
                 }else{
                     search = null ;
                     BrowseItems(items.ItemList);
@@ -146,7 +155,7 @@ public class browseActivity extends AppCompatActivity  {
                                     int i, long id ) {
                 Intent intent = new Intent(context, ShowItem.class);
                 if(search == null)
-                intent.putExtra("id" , i ) ;
+                intent.putExtra("id" , items.ItemList.get(i).getIndex() ) ;
                 else
                     intent.putExtra("id" , search.get(i).getIndex() ) ;
                 startActivity(intent);

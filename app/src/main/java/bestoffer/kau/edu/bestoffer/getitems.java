@@ -78,7 +78,7 @@ public class getitems extends AsyncTask<String, Void, String> {
 
                         items item = new items();
                         item.setIndex(i);
-                        item.setId(jsonObj.getLong("id"+i));
+                        item.setId(jsonObj.getString("id"+i));
                         item.setName(jsonObj.getString("name"+i).trim());
                         item.setType(jsonObj.getString("type"+i).trim());
                         item.setDescription(jsonObj.getString("description"+i).trim());

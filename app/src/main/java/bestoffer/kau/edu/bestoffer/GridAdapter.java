@@ -36,7 +36,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return Ar.get(i).getId();
+        return 0;
     }
 
     @Override
@@ -73,8 +73,10 @@ public class GridAdapter extends BaseAdapter {
             imageViewAndroidLogo.setImageResource(R.drawable.ca);
         }else if(Ar.get(i).getSupermarket().equalsIgnoreCase("da")){
             imageViewAndroidLogo.setImageResource(R.drawable.da);
-        }else{
+        }else if(Ar.get(i).getSupermarket().equalsIgnoreCase("pa")){
             imageViewAndroidLogo.setImageResource(R.drawable.pa);
+        } else if(Ar.get(i).getSupermarket().equalsIgnoreCase("lu")){
+            imageViewAndroidLogo.setImageResource(R.drawable.lu);
         }
 
         if(Ar.get(i).getOffer() != 0){

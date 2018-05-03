@@ -36,7 +36,7 @@ public class GridCartAdapter  extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return CartList.get(i).getId();
+        return 0;
     }
 
     @Override
@@ -71,8 +71,10 @@ public class GridCartAdapter  extends BaseAdapter {
             imageViewAndroidLogo.setImageResource(R.drawable.ca);
         }else if(CartList.get(i).getSupermarket().equalsIgnoreCase("da")){
             imageViewAndroidLogo.setImageResource(R.drawable.da);
-        }else{
+        }else if(CartList.get(i).getSupermarket().equalsIgnoreCase("pa")){
             imageViewAndroidLogo.setImageResource(R.drawable.pa);
+        } else if(CartList.get(i).getSupermarket().equalsIgnoreCase("lu")){
+            imageViewAndroidLogo.setImageResource(R.drawable.lu);
         }
 
         if(CartList.get(i).getOffer() != 0){

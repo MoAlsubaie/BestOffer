@@ -67,7 +67,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object , String , String> {
         List<HashMap<String,String>> nearbyPlaces = null ;
         DataParser parser = new DataParser();
         nearbyPlaces = parser.parse(s) ;
-        System.err.println("sssssss    :"+s);
         SetnearByPlaces(nearbyPlaces);
     }
 
